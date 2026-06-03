@@ -1,136 +1,162 @@
+"use client";
 import Link from "next/link";
+import Image from "next/image";
+import { NAV_CATEGORIES, NEWSROOM_LINKS, POLICY_LINKS, SOCIAL_LINKS } from "@/config/nav";
+import { useLanguage } from "./LanguageProvider";
+import logoSrc from "@/assets/images/logo.png";
 
-const CATEGORIES = [
-  { name: "Sports", slug: "sports" },
-  { name: "Entertainment", slug: "entertainment" },
-  { name: "Technology", slug: "technology" },
-  { name: "Politics", slug: "politics" },
-  { name: "Education", slug: "education" },
-];
+function FooterWordmark() {
+  return (
+    <Link href="/" aria-label="Genzflash News — Home">
+      {/* Transparent logo: black wordmark in light mode, inverted to white in dark */}
+      <div className="rounded-lg overflow-hidden px-2 py-0.5 inline-block">
+        <div className="relative h-8 w-40">
+          <Image
+            src={logoSrc}
+            alt="Genzflash News"
+            fill
+            sizes="160px"
+            className="object-cover dark:invert"
+            style={{ objectPosition: "center 48%" }}
+          />
+        </div>
+      </div>
+    </Link>
+  );
+}
 
-const QUICK_LINKS = [
-  { label: "Home", href: "/" },
-  { label: "All News", href: "/news" },
-  { label: "About Us", href: "/about" },
-  { label: "Admin Panel", href: "/admin" },
-];
+function SocialIcon({ label, href, path }) {
+  return (
+    <a href={href} target="_blank" rel="noopener noreferrer"
+      aria-label={`${label} (opens in new tab)`}
+      className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 dark:border-gray-800 bg-slate-100 dark:bg-gray-900 text-slate-500 dark:text-gray-400 transition-all hover:border-red-600 hover:bg-red-600 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500">
+      <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4" aria-hidden="true">
+        <path d={path} />
+      </svg>
+    </a>
+  );
+}
 
-const TECH_STACK = [
-  "Next.js 16",
-  "Django 5",
-  "PostgreSQL",
-  "Tailwind CSS v4",
-  "REST API",
-  "JWT Auth",
-];
+function ColHeading({ children }) {
+  return (
+    <h2 className="mb-5 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500 dark:text-gray-500">
+      {children}
+    </h2>
+  );
+}
+
+function ColLink({ href, children }) {
+  return (
+    <Link href={href}
+      className="block text-sm text-slate-600 dark:text-gray-400 transition-colors hover:text-slate-900 dark:hover:text-white hover:translate-x-0.5 transform duration-150">
+      {children}
+    </Link>
+  );
+}
 
 export default function Footer() {
   const year = new Date().getFullYear();
+  const { t } = useLanguage();
 
   return (
-    <footer className="bg-gray-950 border-t border-gray-800 mt-20">
-      <div className="max-w-7xl mx-auto px-4 py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-        {/* Brand column */}
-        <div className="sm:col-span-2 lg:col-span-1">
-          <Link href="/" className="flex items-center gap-2.5 group mb-4">
-            <div className="bg-red-600 group-hover:bg-red-500 transition-colors text-white font-black text-lg px-2.5 py-1 rounded leading-tight">
-              GEN<span className="text-yellow-300">Z</span>
-            </div>
-            <span className="text-white font-bold text-xl">
-              Flash<span className="text-red-500">News</span>
+    <footer className="mt-20 border-t border-slate-200 dark:border-gray-800 bg-white dark:bg-gray-950 transition-colors duration-200">
+      {/* Top strip */}
+      <div className="border-b border-slate-200 dark:border-gray-900 bg-slate-50 dark:bg-gray-950">
+        <div className="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-gray-600">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-600" />
             </span>
+            {t("footer.liveUpdated")}
+          </div>
+          <Link href="/register"
+            className="text-xs font-semibold px-4 py-1.5 rounded-full bg-red-600 hover:bg-red-500 text-white transition-colors">
+            {t("footer.createAccount")}
           </Link>
-          <p className="text-gray-500 text-sm leading-relaxed mb-5">
-            Cambodia&apos;s premier digital news platform for the new
-            generation. Fast, accurate, and built for Gen Z readers across the
-            Kingdom.
-          </p>
-          <div className="flex gap-4">
-            {["📱", "💬", "📺", "🐦"].map((icon) => (
-              <span
-                key={icon}
-                className="text-gray-600 hover:text-red-400 cursor-pointer text-lg transition-colors"
-              >
-                {icon}
-              </span>
-            ))}
+        </div>
+      </div>
+
+      {/* Main grid */}
+      <div className="mx-auto max-w-7xl px-4 py-14">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-12">
+
+          {/* Brand column */}
+          <div className="md:col-span-5">
+            <FooterWordmark />
+            <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-600 dark:text-gray-400">
+              {t("footer.tagline")}
+            </p>
+
+            {/* Social links */}
+            <div className="mt-6">
+              <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-gray-500">{t("footer.followUs")}</p>
+              <ul className="flex gap-2.5" aria-label="Social media">
+                {SOCIAL_LINKS.map((item) => (
+                  <li key={item.label}><SocialIcon {...item} /></li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Auth CTA */}
+            <div className="mt-8 flex items-center gap-3">
+              <Link href="/login"
+                className="text-xs font-medium px-4 py-2 rounded-full border border-slate-300 dark:border-gray-700 text-slate-600 dark:text-gray-400 hover:border-slate-400 dark:hover:border-gray-500 hover:text-slate-900 dark:hover:text-white transition-all">
+                {t("header.signin")}
+              </Link>
+              <Link href="/register"
+                className="text-xs font-semibold px-4 py-2 rounded-full bg-red-600 hover:bg-red-500 text-white transition-colors">
+                {t("footer.registerFree")}
+              </Link>
+            </div>
           </div>
-        </div>
 
-        {/* Categories */}
-        <div>
-          <h4 className="text-white font-semibold text-xs uppercase tracking-widest mb-5 pb-2 border-b border-red-700">
-            Categories
-          </h4>
-          <ul className="space-y-3">
-            {CATEGORIES.map((cat) => (
-              <li key={cat.slug}>
-                <Link
-                  href={`/category/${cat.slug}`}
-                  className="flex items-center gap-2 text-gray-500 hover:text-red-400 text-sm transition-colors group"
-                >
-                  <span className="w-1 h-1 bg-red-700 rounded-full group-hover:bg-red-400 transition-colors"></span>
-                  {cat.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+          {/* Sections */}
+          <nav aria-labelledby="footer-sections" className="md:col-span-3 md:col-start-7">
+            <ColHeading>{t("footer.sections")}</ColHeading>
+            <ul className="space-y-2.5">
+              {NAV_CATEGORIES.map((cat) => (
+                <li key={cat.slug}><ColLink href={`/category/${cat.slug}`}>{t(`nav.${cat.slug}`)}</ColLink></li>
+              ))}
+            </ul>
+          </nav>
 
-        {/* Quick Links */}
-        <div>
-          <h4 className="text-white font-semibold text-xs uppercase tracking-widest mb-5 pb-2 border-b border-red-700">
-            Quick Links
-          </h4>
-          <ul className="space-y-3">
-            {QUICK_LINKS.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="flex items-center gap-2 text-gray-500 hover:text-red-400 text-sm transition-colors group"
-                >
-                  <span className="w-1 h-1 bg-red-700 rounded-full group-hover:bg-red-400 transition-colors"></span>
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Tech Stack */}
-        <div>
-          <h4 className="text-white font-semibold text-xs uppercase tracking-widest mb-5 pb-2 border-b border-red-700">
-            Built With
-          </h4>
-          <div className="flex flex-wrap gap-2">
-            {TECH_STACK.map((tech) => (
-              <span
-                key={tech}
-                className="bg-gray-800 border border-gray-700 text-gray-400 text-xs px-2.5 py-1 rounded-full hover:border-red-800 hover:text-red-400 transition-colors cursor-default"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-          <p className="text-gray-700 text-xs mt-5 leading-relaxed">
-            Final-year capstone project — Royal University of Phnom Penh,
-            Faculty of Information Technology.
-          </p>
+          {/* Newsroom */}
+          <nav aria-labelledby="footer-newsroom" className="md:col-span-3">
+            <ColHeading>{t("footer.newsroom")}</ColHeading>
+            <ul className="space-y-2.5">
+              {NEWSROOM_LINKS.map((link) => (
+                <li key={link.href}><ColLink href={link.href}>{link.label}</ColLink></li>
+              ))}
+            </ul>
+          </nav>
+          {/* Admin entry points are intentionally NOT exposed in the public footer. */}
         </div>
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-gray-800/60 py-5 px-4">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="text-gray-600 text-xs">
-            © {year}{" "}
-            <span className="text-red-600 font-semibold">GenZFlash News</span>.
-            All rights reserved.
-          </p>
-          <p className="text-gray-700 text-xs">
-            Built with ❤️ at RUPP · Phnom Penh, Cambodia
-          </p>
+      <div className="border-t border-slate-200 dark:border-gray-800/80">
+        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-5 md:flex-row md:items-center md:justify-between">
+          <nav aria-label="Policies">
+            <ul className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs">
+              {POLICY_LINKS.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="text-slate-500 dark:text-gray-500 hover:text-slate-800 dark:hover:text-gray-300 transition-colors">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <p className="text-xs text-slate-500 dark:text-gray-600">&copy; {year} GenZFlash News. {t("footer.rights")}</p>
         </div>
+      </div>
+
+      {/* RUPP attribution */}
+      <div className="border-t border-slate-200 dark:border-gray-800/40 px-4 py-3">
+        <p className="mx-auto max-w-7xl text-center text-[11px] leading-relaxed text-slate-400 dark:text-gray-700 md:text-left">
+          {t("footer.capstone")} &middot; {year}
+        </p>
       </div>
     </footer>
   );

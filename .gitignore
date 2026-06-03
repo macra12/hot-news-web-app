@@ -70,6 +70,14 @@ web_modules/
 .env.*
 !.env.example
 
+# Python / Django generated files
+__pycache__/
+*.py[cod]
+*$py.class
+backend/staticfiles/
+backend/media/
+frontend/src/assets/fonts/*.zip
+
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 .parcel-cache

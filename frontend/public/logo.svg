@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 52" fill="none">
+  <!-- Icon badge -->
+  <rect width="52" height="52" rx="11" fill="#dc2626"/>
+  <!-- Lightning bolt path -->
+  <path d="M32 7L18 30h9l-6 15L40 21H29z" fill="#fbbf24"/>
+
+  <!-- GENZ text -->
+  <text x="67" y="34" font-family="'Arial Black',Impact,Arial,sans-serif"
+        font-size="24" font-weight="900" letter-spacing="-0.5" fill="#0f172a">GEN</text>
+  <text x="108" y="34" font-family="'Arial Black',Impact,Arial,sans-serif"
+        font-size="24" font-weight="900" fill="#fbbf24">Z</text>
+
+  <!-- FlashNews -->
+  <text x="122" y="34" font-family="'Arial Black',Impact,Arial,sans-serif"
+        font-size="24" font-weight="900" fill="#dc2626">Flash</text>
+  <text x="67" y="48" font-family="Arial,sans-serif" font-size="11"
+        font-weight="600" fill="#6b7280" letter-spacing="4">NEWS</text>
+</svg>
