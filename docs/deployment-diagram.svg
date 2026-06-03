@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1050" viewBox="0 0 1800 1050">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#333"/>
+    </marker>
+    <style>
+      .title { font: 700 58px Arial, Helvetica, sans-serif; fill: #050505; }
+      .subtitle { font: 20px Arial, Helvetica, sans-serif; fill: #555; }
+      .box-title { font: 700 22px Arial, Helvetica, sans-serif; fill: #111; text-anchor: middle; }
+      .box-text { font: 17px Arial, Helvetica, sans-serif; fill: #333; text-anchor: middle; }
+      .small { font: 15px Arial, Helvetica, sans-serif; fill: #555; text-anchor: middle; }
+      .box { stroke: #697386; stroke-width: 2; rx: 18; }
+      .blue { fill: #dff0ff; }
+      .green { fill: #dff7e8; }
+      .purple { fill: #e9e5ff; }
+      .orange { fill: #fff1d6; }
+      .gray { fill: #f4f6f8; }
+      .line { stroke: #333; stroke-width: 2.4; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #333; stroke-width: 2.2; fill: none; stroke-dasharray: 9 8; marker-end: url(#arrow); }
+      .boundary { fill: #fff; stroke: #4b5563; stroke-width: 2.4; rx: 24; }
+    </style>
+  </defs>
+
+  <rect width="1800" height="1050" fill="#fff"/>
+  <text x="60" y="95" class="title">System Deployment Diagram</text>
+  <text x="64" y="132" class="subtitle">GenZFlash News: GitHub → Render → PostgreSQL / Firebase / External News APIs</text>
+
+  <rect x="445" y="160" width="1090" height="790" class="boundary"/>
+  <text x="990" y="200" class="box-title">Render Cloud Deployment</text>
+
+  <rect x="60" y="250" width="250" height="115" class="box blue"/>
+  <text x="185" y="290" class="box-title">User Browser</text>
+  <text x="185" y="322" class="box-text">Visits website</text>
+  <text x="185" y="348" class="box-text">Reads/searches news</text>
+
+  <rect x="60" y="495" width="250" height="115" class="box purple"/>
+  <text x="185" y="535" class="box-title">Admin Browser</text>
+  <text x="185" y="567" class="box-text">Login dashboard</text>
+  <text x="185" y="593" class="box-text">Manage CMS data</text>
+
+  <rect x="60" y="760" width="250" height="115" class="box orange"/>
+  <text x="185" y="800" class="box-title">Developer</text>
+  <text x="185" y="832" class="box-text">Push code</text>
+  <text x="185" y="858" class="box-text">to GitHub</text>
+
+  <rect x="525" y="270" width="300" height="150" class="box blue"/>
+  <text x="675" y="312" class="box-title">Frontend Web Service</text>
+  <text x="675" y="344" class="box-text">Next.js on Render</text>
+  <text x="675" y="370" class="box-text">Pages + UI</text>
+  <text x="675" y="396" class="box-text">/api/news live route</text>
+
+  <rect x="1035" y="270" width="300" height="150" class="box green"/>
+  <text x="1185" y="312" class="box-title">Backend Web Service</text>
+  <text x="1185" y="344" class="box-text">Django REST API</text>
+  <text x="1185" y="370" class="box-text">Auth, admin, news</text>
+  <text x="1185" y="396" class="box-text">Runs migrate/import on start</text>
+
+  <rect x="1035" y="545" width="300" height="135" class="box orange"/>
+  <text x="1185" y="586" class="box-title">Render PostgreSQL</text>
+  <text x="1185" y="618" class="box-text">Stores users</text>
+  <text x="1185" y="644" class="box-text">news, categories, sources</text>
+
+  <rect x="525" y="545" width="300" height="135" class="box purple"/>
+  <text x="675" y="586" class="box-title">JWT Authentication</text>
+  <text x="675" y="618" class="box-text">Register / Login</text>
+  <text x="675" y="644" class="box-text">Admin protected routes</text>
+
+  <rect x="525" y="765" width="300" height="120" class="box gray"/>
+  <text x="675" y="805" class="box-title">GitHub Repository</text>
+  <text x="675" y="837" class="box-text">render.yaml blueprint</text>
+  <text x="675" y="863" class="box-text">auto deploy source</text>
+
+  <rect x="1500" y="250" width="250" height="115" class="box gray"/>
+  <text x="1625" y="290" class="box-title">External News Feeds</text>
+  <text x="1625" y="322" class="box-text">BBC, Khmer Times</text>
+  <text x="1625" y="348" class="box-text">CamboJA, RSS/NewsData</text>
+
+  <rect x="1500" y="500" width="250" height="115" class="box orange"/>
+  <text x="1625" y="540" class="box-title">Firebase Storage</text>
+  <text x="1625" y="572" class="box-text">Optional media files</text>
+  <text x="1625" y="598" class="box-text">article images/uploads</text>
+
+  <rect x="1500" y="760" width="250" height="115" class="box purple"/>
+  <text x="1625" y="800" class="box-title">Render Blueprint</text>
+  <text x="1625" y="832" class="box-text">Creates frontend</text>
+  <text x="1625" y="858" class="box-text">backend + database</text>
+
+  <path class="line" d="M310 308 L525 330"/>
+  <text x="420" y="296" class="small">HTTPS</text>
+
+  <path class="line" d="M310 552 L525 612"/>
+  <text x="415" y="570" class="small">JWT login</text>
+
+  <path class="line" d="M825 345 L1035 345"/>
+  <text x="930" y="326" class="small">REST API calls</text>
+
+  <path class="line" d="M1035 390 L825 390"/>
+  <text x="930" y="412" class="small">JSON news/user data</text>
+
+  <path class="line" d="M1185 420 L1185 545"/>
+  <text x="1270" y="488" class="small">read/write</text>
+
+  <path class="line" d="M825 612 L1035 612"/>
+  <text x="930" y="594" class="small">tokens protect admin API</text>
+
+  <path class="line" d="M1335 335 L1500 308"/>
+  <text x="1420" y="300" class="small">fetch RSS</text>
+
+  <path class="line" d="M1500 335 L1335 390"/>
+  <text x="1420" y="382" class="small">fresh articles</text>
+
+  <path class="line" d="M1335 555 L1500 555"/>
+  <text x="1420" y="538" class="small">media URLs</text>
+
+  <path class="line" d="M310 818 L525 825"/>
+  <text x="420" y="803" class="small">git push</text>
+
+  <path class="line" d="M825 825 L1500 818"/>
+  <text x="1160" y="803" class="small">Blueprint sync</text>
+
+  <path class="line" d="M1500 805 L1335 390"/>
+  <text x="1430" y="700" class="small">deploy backend</text>
+
+  <path class="line" d="M1500 835 L825 390"/>
+  <text x="1135" y="735" class="small">deploy frontend</text>
+
+  <path class="dash" d="M1185 420 L1500 308"/>
+  <text x="1378" y="430" class="small">startup import</text>
+
+  <path class="dash" d="M1185 420 L1185 545"/>
+
+  <text x="60" y="985" class="subtitle">Simple flow: User opens frontend → frontend calls Django backend → backend reads/writes PostgreSQL → backend/frontend fetch live RSS → optional uploads go to Firebase.</text>
+</svg>
