@@ -21,9 +21,12 @@ class Command(BaseCommand):
             raise CommandError('Username cannot be empty.')
 
         if not password:
-            raise CommandError(
-                'Password is required. Pass --password or set SUPERADMIN_PASSWORD.'
-            )
+            # Skip quietly (exit 0) so this step never breaks the deploy chain.
+            # Set SUPERADMIN_PASSWORD in the host's environment to enable it.
+            self.stdout.write(self.style.WARNING(
+                'SUPERADMIN_PASSWORD not set — skipping superadmin creation.'
+            ))
+            return
 
         user_model = get_user_model()
         user, created = user_model.objects.get_or_create(
