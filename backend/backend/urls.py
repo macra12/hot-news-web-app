@@ -26,3 +26,16 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,  document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+else:
+    # In production, when media lives on local disk (no cloud storage configured),
+    # still serve /media/ so admin-uploaded images are visible. When GS_* (Firebase)
+    # is set, image URLs point straight to Google Cloud Storage and this route is
+    # unused. NOTE: local-disk uploads are ephemeral on hosts with non-persistent
+    # disks (e.g. Render free tier) — configure Firebase for durable storage.
+    _default_storage = settings.STORAGES.get("default", {}).get("BACKEND", "")
+    if "gcloud" not in _default_storage:
+        from django.urls import re_path
+        from django.views.static import serve as media_serve
+        urlpatterns += [
+            re_path(r"^media/(?P<path>.*)$", media_serve, {"document_root": settings.MEDIA_ROOT}),
+        ]
