@@ -89,6 +89,7 @@ const en = {
   "category.browseOther": "Browse other categories",
   "category.articles": "articles",
   "category.couldntLive": "Could not load live news — check your connection.",
+  "category.empty": "No articles in this category yet — check back soon.",
 
   // Search
   "search.heading": "Search",

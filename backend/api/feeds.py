@@ -69,6 +69,11 @@ SOURCES = [
      "url": "https://www.theguardian.com/technology/rss",                  "website": "https://www.theguardian.com/technology", "active": True},
 
     # ── Khmer / Cambodia feeds ────────────────────────────────────────────────
+    # Google News (served by Google → never IP-blocked) aggregates Cambodia
+    # coverage from many outlets, so the Cambodia category stays populated even
+    # when direct sites (e.g. Khmer Times behind Cloudflare) block the host's IP.
+    {"name": "Google News · Cambodia", "feed_type": "rss", "category": "Cambodia",
+     "url": "https://news.google.com/rss/search?q=Cambodia&hl=en-US&gl=US&ceid=US:en", "website": "https://news.google.com", "active": True},
     {"name": "Khmer Times",       "feed_type": "rss", "category": "Cambodia",
      "url": "https://www.khmertimeskh.com/feed/",                           "website": "https://www.khmertimeskh.com", "active": True},
     {"name": "CamboJA News",      "feed_type": "rss", "category": "Cambodia",

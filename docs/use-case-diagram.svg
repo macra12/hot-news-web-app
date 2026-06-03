@@ -1,0 +1,188 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="1200" viewBox="0 0 2048 1200">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#444"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#2d91ee"/>
+    </marker>
+    <style>
+      .title { font: 700 66px Arial, Helvetica, sans-serif; fill: #050505; }
+      .boundary-label { font: 700 24px Arial, Helvetica, sans-serif; fill: #222; }
+      .actor-label { font: 18px Arial, Helvetica, sans-serif; fill: #555; text-anchor: middle; }
+      .box-text { font: 16px Arial, Helvetica, sans-serif; fill: #333; text-anchor: middle; }
+      .small-text { font: 13px Arial, Helvetica, sans-serif; fill: #555; text-anchor: middle; }
+      .usecase { fill: #c9c8ff; stroke: #b4b2f5; stroke-width: 2; }
+      .line { stroke: #444; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #444; stroke-width: 2; fill: none; stroke-dasharray: 9 8; marker-end: url(#arrow); }
+      .actor { fill: none; stroke: #2d91ee; stroke-width: 12; stroke-linecap: round; stroke-linejoin: round; }
+      .actor-fill { fill: #2d91ee; }
+    </style>
+  </defs>
+
+  <rect width="2048" height="1200" fill="#fff"/>
+  <text x="60" y="135" class="title">Use Case Diagram</text>
+
+  <rect x="760" y="25" width="890" height="1135" rx="16" fill="#fff" stroke="#555" stroke-width="2"/>
+  <text x="1205" y="62" class="boundary-label" text-anchor="middle">GenZFlash News System</text>
+
+  <!-- Actor drawing template repeated manually -->
+  <g transform="translate(660 485)">
+    <circle cx="0" cy="-60" r="13" class="actor-fill"/>
+    <path class="actor" d="M0 -42 L0 35 M-24 -18 L-24 25 M24 -18 L24 25 M0 35 L-20 82 M0 35 L20 82"/>
+    <text x="0" y="122" class="actor-label">Visitor</text>
+  </g>
+  <g transform="translate(660 700)">
+    <circle cx="0" cy="-60" r="13" class="actor-fill"/>
+    <path class="actor" d="M0 -42 L0 35 M-24 -18 L-24 25 M24 -18 L24 25 M0 35 L-20 82 M0 35 L20 82"/>
+    <text x="0" y="122" class="actor-label">Registered</text>
+    <text x="0" y="144" class="actor-label">User</text>
+  </g>
+  <g transform="translate(660 925)">
+    <circle cx="0" cy="-60" r="13" class="actor-fill"/>
+    <path class="actor" d="M0 -42 L0 35 M-24 -18 L-24 25 M24 -18 L24 25 M0 35 L-20 82 M0 35 L20 82"/>
+    <text x="0" y="122" class="actor-label">Admin /</text>
+    <text x="0" y="144" class="actor-label">Editor</text>
+  </g>
+
+  <g transform="translate(1810 260)">
+    <circle cx="0" cy="-60" r="13" class="actor-fill"/>
+    <path class="actor" d="M0 -42 L0 35 M-24 -18 L-24 25 M24 -18 L24 25 M0 35 L-20 82 M0 35 L20 82"/>
+    <text x="0" y="122" class="actor-label">Authentication</text>
+  </g>
+  <g transform="translate(1810 540)">
+    <circle cx="0" cy="-60" r="13" class="actor-fill"/>
+    <path class="actor" d="M0 -42 L0 35 M-24 -18 L-24 25 M24 -18 L24 25 M0 35 L-20 82 M0 35 L20 82"/>
+    <text x="0" y="122" class="actor-label">External News</text>
+    <text x="0" y="144" class="actor-label">Provider</text>
+  </g>
+  <g transform="translate(1810 815)">
+    <circle cx="0" cy="-60" r="13" class="actor-fill"/>
+    <path class="actor" d="M0 -42 L0 35 M-24 -18 L-24 25 M24 -18 L24 25 M0 35 L-20 82 M0 35 L20 82"/>
+    <text x="0" y="122" class="actor-label">Render</text>
+    <text x="0" y="144" class="actor-label">Importer</text>
+  </g>
+  <g transform="translate(1810 1030)">
+    <circle cx="0" cy="-60" r="13" class="actor-fill"/>
+    <path class="actor" d="M0 -42 L0 35 M-24 -18 L-24 25 M24 -18 L24 25 M0 35 L-20 82 M0 35 L20 82"/>
+    <text x="0" y="122" class="actor-label">Firebase</text>
+    <text x="0" y="144" class="actor-label">Storage</text>
+  </g>
+
+  <!-- Use case boxes -->
+  <rect class="usecase" x="835" y="360" width="115" height="70"/>
+  <text class="box-text" x="892.5" y="388"><tspan x="892.5">Register</tspan><tspan x="892.5" dy="20">Account</tspan></text>
+
+  <rect class="usecase" x="835" y="485" width="115" height="70"/>
+  <text class="box-text" x="892.5" y="513"><tspan x="892.5">Login</tspan></text>
+
+  <rect class="usecase" x="1010" y="420" width="125" height="76"/>
+  <text class="box-text" x="1072.5" y="449"><tspan x="1072.5">Identify User</tspan><tspan x="1072.5" dy="20">Role</tspan></text>
+
+  <rect class="usecase" x="1010" y="625" width="125" height="76"/>
+  <text class="box-text" x="1072.5" y="654"><tspan x="1072.5">Manage</tspan><tspan x="1072.5" dy="20">Profile</tspan></text>
+
+  <rect class="usecase" x="1015" y="190" width="120" height="70"/>
+  <text class="box-text" x="1075" y="219"><tspan x="1075">Search</tspan><tspan x="1075" dy="20">News</tspan></text>
+
+  <rect class="usecase" x="1190" y="135" width="125" height="72"/>
+  <text class="box-text" x="1252.5" y="164"><tspan x="1252.5">Browse</tspan><tspan x="1252.5" dy="20">Home Feed</tspan></text>
+
+  <rect class="usecase" x="1190" y="260" width="125" height="72"/>
+  <text class="box-text" x="1252.5" y="289"><tspan x="1252.5">View All</tspan><tspan x="1252.5" dy="20">News</tspan></text>
+
+  <rect class="usecase" x="1190" y="385" width="125" height="72"/>
+  <text class="box-text" x="1252.5" y="414"><tspan x="1252.5">View News</tspan><tspan x="1252.5" dy="20">Category</tspan></text>
+
+  <rect class="usecase" x="1190" y="510" width="125" height="72"/>
+  <text class="box-text" x="1252.5" y="538"><tspan x="1252.5">Read Article</tspan><tspan x="1252.5" dy="20">Detail</tspan></text>
+
+  <rect class="usecase" x="1375" y="510" width="125" height="72"/>
+  <text class="box-text" x="1437.5" y="538"><tspan x="1437.5">Open External</tspan><tspan x="1437.5" dy="20">Source</tspan></text>
+
+  <rect class="usecase" x="1185" y="680" width="130" height="72"/>
+  <text class="box-text" x="1250" y="709"><tspan x="1250">Create News</tspan><tspan x="1250" dy="20">Article</tspan></text>
+
+  <rect class="usecase" x="1185" y="800" width="130" height="72"/>
+  <text class="box-text" x="1250" y="829"><tspan x="1250">Edit News</tspan><tspan x="1250" dy="20">Article</tspan></text>
+
+  <rect class="usecase" x="1185" y="920" width="130" height="72"/>
+  <text class="box-text" x="1250" y="949"><tspan x="1250">Delete News</tspan><tspan x="1250" dy="20">Article</tspan></text>
+
+  <rect class="usecase" x="1370" y="655" width="130" height="72"/>
+  <text class="box-text" x="1435" y="684"><tspan x="1435">Manage</tspan><tspan x="1435" dy="20">Categories</tspan></text>
+
+  <rect class="usecase" x="1370" y="775" width="130" height="72"/>
+  <text class="box-text" x="1435" y="804"><tspan x="1435">Manage</tspan><tspan x="1435" dy="20">Sources</tspan></text>
+
+  <rect class="usecase" x="1370" y="895" width="130" height="72"/>
+  <text class="box-text" x="1435" y="924"><tspan x="1435">Manage</tspan><tspan x="1435" dy="20">Users</tspan></text>
+
+  <rect class="usecase" x="1370" y="1010" width="130" height="72"/>
+  <text class="box-text" x="1435" y="1039"><tspan x="1435">View Dashboard</tspan><tspan x="1435" dy="20">Stats</tspan></text>
+
+  <rect class="usecase" x="1005" y="830" width="130" height="72"/>
+  <text class="box-text" x="1070" y="858"><tspan x="1070">Identify Admin</tspan><tspan x="1070" dy="20">Role</tspan></text>
+
+  <rect class="usecase" x="1005" y="950" width="130" height="72"/>
+  <text class="box-text" x="1070" y="978"><tspan x="1070">Upload / Store</tspan><tspan x="1070" dy="20">Media File</tspan></text>
+
+  <rect class="usecase" x="1190" y="1060" width="130" height="72"/>
+  <text class="box-text" x="1255" y="1088"><tspan x="1255">Trigger News</tspan><tspan x="1255" dy="20">Import</tspan></text>
+
+  <!-- Actor to use case associations -->
+  <path class="line" d="M690 505 L835 395"/>
+  <path class="line" d="M690 505 L835 520"/>
+  <path class="line" d="M690 505 L1015 225"/>
+  <path class="line" d="M690 505 L1190 171"/>
+  <path class="line" d="M690 505 L1190 296"/>
+  <path class="line" d="M690 505 L1190 421"/>
+  <path class="line" d="M690 505 L1190 546"/>
+  <path class="line" d="M690 505 L1375 546"/>
+
+  <path class="line" d="M690 720 L835 485"/>
+  <path class="line" d="M690 720 L1010 663"/>
+  <path class="line" d="M690 720 L1190 510"/>
+  <path class="line" d="M690 720 L1015 225"/>
+
+  <path class="line" d="M690 945 L1005 866"/>
+  <path class="line" d="M690 945 L1185 716"/>
+  <path class="line" d="M690 945 L1185 836"/>
+  <path class="line" d="M690 945 L1185 956"/>
+  <path class="line" d="M690 945 L1370 691"/>
+  <path class="line" d="M690 945 L1370 811"/>
+  <path class="line" d="M690 945 L1370 931"/>
+  <path class="line" d="M690 945 L1370 1046"/>
+  <path class="line" d="M690 945 L1005 986"/>
+  <path class="line" d="M690 945 L1190 1096"/>
+
+  <!-- External actors -->
+  <path class="line" d="M1780 260 L950 520"/>
+  <path class="line" d="M1780 260 L1135 458"/>
+  <path class="line" d="M1780 260 L1135 866"/>
+
+  <path class="line" d="M1780 540 L1320 1096"/>
+  <path class="line" d="M1780 540 L1315 171"/>
+  <path class="line" d="M1780 540 L1500 546"/>
+
+  <path class="line" d="M1780 815 L1320 1096"/>
+  <path class="line" d="M1780 1030 L1135 986"/>
+  <path class="line" d="M1780 1030 L1315 546"/>
+
+  <!-- Internal include / role flow -->
+  <path class="dash" d="M950 395 L1010 458"/>
+  <text class="small-text" x="982" y="418">&lt;&lt;include&gt;&gt;</text>
+  <path class="dash" d="M950 520 L1010 458"/>
+  <text class="small-text" x="985" y="495">&lt;&lt;include&gt;&gt;</text>
+  <path class="dash" d="M1135 866 L1185 716"/>
+  <path class="dash" d="M1135 866 L1185 836"/>
+  <path class="dash" d="M1135 866 L1185 956"/>
+  <path class="dash" d="M1135 866 L1370 691"/>
+  <path class="dash" d="M1135 866 L1370 811"/>
+  <path class="dash" d="M1135 866 L1370 931"/>
+  <path class="dash" d="M1135 866 L1370 1046"/>
+  <path class="dash" d="M1135 986 L1005 986"/>
+
+  <!-- Subtle note -->
+  <text x="1205" y="1140" class="small-text">Main actors, public reading features, admin management, external feeds, and media storage.</text>
+</svg>

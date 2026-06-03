@@ -89,6 +89,7 @@ const km = {
   "category.browseOther": "មើលប្រភេទផ្សេងទៀត",
   "category.articles": "អត្ថបទ",
   "category.couldntLive": "មិនអាចផ្ទុកព័ត៌មានផ្សាយផ្ទាល់បានទេ — សូមពិនិត្យការតភ្ជាប់របស់អ្នក។",
+  "category.empty": "មិនទាន់មានអត្ថបទក្នុងប្រភេទនេះទេ — សូមមកពិនិត្យឡើងវិញ។",
 
   // Search
   "search.heading": "ស្វែងរក",

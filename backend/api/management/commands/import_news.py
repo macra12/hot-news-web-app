@@ -29,7 +29,9 @@ from django.utils.text import slugify
 
 from api.models import NewsArticle, NewsSource
 
-UA = "GenZFlashNewsBot/1.0 (+https://genzflash.local)"
+# A real browser UA — some publishers (Cloudflare-fronted) block bot UAs,
+# especially from datacenter IPs like the production host.
+UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
 TAG_RE = re.compile(r"<[^>]+>")
 WS_RE = re.compile(r"\s+")
 IMG_RE = re.compile(r"""<img[^>]+src=["']([^"']+)["']""", re.I)
