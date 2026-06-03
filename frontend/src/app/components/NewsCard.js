@@ -9,6 +9,26 @@ function readingTime(text) {
   return `${Math.max(1, Math.round(words / 200))} min read`;
 }
 
+// Tasteful gradients (full literal class strings so Tailwind keeps them).
+const PLACEHOLDER_GRADIENTS = [
+  "from-red-500 to-rose-700",
+  "from-blue-500 to-indigo-700",
+  "from-emerald-500 to-teal-700",
+  "from-amber-500 to-orange-700",
+  "from-violet-500 to-purple-700",
+  "from-cyan-500 to-blue-700",
+  "from-fuchsia-500 to-pink-700",
+  "from-slate-600 to-slate-800",
+];
+
+// Deterministic gradient per article so cards look varied but stable.
+function pickGradient(seed) {
+  const s = String(seed || "");
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+  return PLACEHOLDER_GRADIENTS[h % PLACEHOLDER_GRADIENTS.length];
+}
+
 export default function NewsCard({ article }) {
   const isExternal = article.isExternal && article.externalUrl;
   const rt = readingTime(article.summary || article.content);
@@ -40,10 +60,12 @@ export default function NewsCard({ article }) {
             unoptimized
           />
         ) : (
-          <div className="flex h-full items-center justify-center">
-            <svg className="h-9 w-9 text-slate-300 dark:text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.25} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M4 6h16a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V7a1 1 0 011-1z" />
+          <div className={`flex h-full w-full flex-col items-center justify-center bg-linear-to-br ${pickGradient(article.slug || article.title)} p-4 text-center`}>
+            <svg className="mb-2 h-7 w-7 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9" />
             </svg>
+            <span className="text-sm font-black uppercase tracking-wide text-white/95">{categoryName || "GenZ Flash"}</span>
+            <span className="mt-0.5 text-[11px] font-medium text-white/70">{sourceName}</span>
           </div>
         )}
       </div>
