@@ -32,15 +32,20 @@ Only do this if you want uploaded media files stored outside Render.
    - `hot-news-backend` for Django API
    - `hot-news-frontend` for Next.js
    - `hot-news-db` for PostgreSQL
-   - `hot-news-importer` worker for fresh news imports
 
-Important: the importer worker uses a paid `starter` plan because Render does not run workers on the free web plan. If you do not want that cost, delete the `hot-news-importer` service from `render.yaml` before deploying. Without the worker, your stored DB news can become old.
+This Blueprint avoids Render workers by default so the first deploy can stay on the free tier. Render free services do not support `preDeployCommand`, so the backend runs migrations and source seeding in its start command.
+
+If you later want the database importer to run all day, add a paid Render Worker with this command:
+
+```bash
+python manage.py run_importer --interval 120 --limit 20 --prune-days 60
+```
 
 ## 4. Fill secret environment variables
 
 Render will ask for variables marked `sync: false`.
 
-Backend and importer:
+Backend:
 
 ```text
 NEWSDATA_KEY=your_newsdata_api_key
@@ -73,7 +78,7 @@ After Render finishes:
 
 1. Open `https://hot-news-backend.onrender.com/api/news/latest/`
 2. Open `https://hot-news-frontend.onrender.com`
-3. Check the importer logs. You should see `News importer started`.
+3. Open the backend logs and confirm migrations completed.
 
 ## 7. Create an admin account
 
@@ -88,6 +93,6 @@ Then log in through your admin page.
 ## Quick answer
 
 - Use GitHub for source code.
-- Use Render for frontend, backend, PostgreSQL, and the importer worker.
+- Use Render for frontend, backend, and PostgreSQL.
 - Use Firebase Storage only for uploaded media files.
 - Do not use Docker first; native Render deploy is simpler here.

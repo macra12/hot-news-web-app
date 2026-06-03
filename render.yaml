@@ -5,8 +5,7 @@ services:
     plan: free
     rootDir: backend
     buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
-    preDeployCommand: python manage.py migrate && python manage.py seed_sources
-    startCommand: gunicorn backend.wsgi:application --bind 0.0.0.0:$PORT
+    startCommand: python manage.py migrate && python manage.py seed_sources && gunicorn backend.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
       - key: PYTHON_VERSION
         value: 3.12.7
@@ -20,33 +19,6 @@ services:
         value: https://hot-news-frontend.onrender.com
       - key: DJANGO_CSRF_TRUSTED_ORIGINS
         value: https://hot-news-backend.onrender.com,https://hot-news-frontend.onrender.com
-      - key: DATABASE_URL
-        fromDatabase:
-          name: hot-news-db
-          property: connectionString
-      - key: NEWSDATA_KEY
-        sync: false
-      - key: GS_BUCKET_NAME
-        sync: false
-      - key: GS_CREDENTIALS_JSON
-        sync: false
-
-  - type: worker
-    name: hot-news-importer
-    runtime: python
-    plan: starter
-    rootDir: backend
-    buildCommand: pip install -r requirements.txt
-    startCommand: python manage.py run_importer --interval 120 --limit 20 --prune-days 60
-    envVars:
-      - key: PYTHON_VERSION
-        value: 3.12.7
-      - key: DJANGO_DEBUG
-        value: "False"
-      - key: DJANGO_SECRET_KEY
-        generateValue: true
-      - key: DJANGO_ALLOWED_HOSTS
-        value: hot-news-backend.onrender.com
       - key: DATABASE_URL
         fromDatabase:
           name: hot-news-db
