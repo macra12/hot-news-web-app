@@ -4,7 +4,13 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 const ND_KEY = process.env.NEWSDATA_KEY || "";
-const LIVE_FETCH_OPTIONS = { cache: "no-store" };
+const LIVE_FETCH_OPTIONS = {
+  cache: "no-store",
+  headers: {
+    Accept: "application/rss+xml, application/xml, text/xml, application/json, */*",
+    "User-Agent": "Mozilla/5.0 (compatible; GenZFlashNewsBot/1.0)",
+  },
+};
 const RESPONSE_INIT = { headers: { "Cache-Control": "no-store" } };
 
 // NewsData.io category mapping
@@ -31,7 +37,10 @@ const ND_COUNTRY = {
 const RSS_FALLBACKS = {
   world:         { url: "https://feeds.bbci.co.uk/news/world/rss.xml",                 source: "BBC News" },
   asia:          { url: "https://feeds.bbci.co.uk/news/world/asia/rss.xml",            source: "BBC News" },
-  cambodia:      { url: "https://www.khmertimeskh.com/feed/",                          source: "Khmer Times" },
+  cambodia: [
+    { url: "https://www.khmertimeskh.com/feed/", source: "Khmer Times" },
+    { url: "https://cambojanews.com/feed/",      source: "CamboJA News" },
+  ],
   sports:        { url: "https://feeds.bbci.co.uk/sport/rss.xml",                      source: "BBC News" },
   technology:    { url: "https://feeds.bbci.co.uk/news/technology/rss.xml",            source: "BBC News" },
   entertainment: { url: "https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml", source: "BBC News" },
@@ -65,6 +74,7 @@ const CAMBODIA_TERMS = [
   "ratanakiri", "prey veng", "oddar meanchey", "hun manet", "hun sen",
   "senate", "national assembly", "ministry", "khmertimeskh.com",
   "phnompenhpost.com", "cambodianess.com", "cambojanews.com", "freshnewsasia.com",
+  "camboja",
 ];
 
 const BAD_IMAGE_TERMS = [
@@ -216,44 +226,56 @@ function extractImage(chunk) {
 }
 
 async function fetchFromRss(category) {
-  const entry = RSS_FALLBACKS[category] || RSS_FALLBACKS.world;
-  let res;
-  try {
-    res = await fetch(entry.url, LIVE_FETCH_OPTIONS);
-  } catch {
-    return [];
-  }
-  if (!res.ok) return [];
-
-  const xml  = await res.text();
-  const raw  = xml.split("<item>").slice(1);
+  const entries = RSS_FALLBACKS[category] || RSS_FALLBACKS.world;
+  const feedEntries = Array.isArray(entries) ? entries : [entries];
   const name = friendlyName(category);
+  const articles = [];
 
-  const articles = raw
-    .slice(0, 12)
-    .map((chunk, i) => {
-      const description = stripHtml(extractTag(chunk, "description"));
-      // content:encoded carries the fuller body when the publisher provides it.
-      const encoded = stripHtml(extractTag(chunk, "content:encoded"));
-      const body = encoded.length > description.length ? encoded : description;
-      return {
-        article_id:   cleanText(extractTag(chunk, "guid")) || `rss-${category}-${i}`,
-        title:        stripHtml(extractTag(chunk, "title")),
-        image:        extractImage(chunk),
-        summary:      description.slice(0, 400),
-        content:      body,
-        author:       stripHtml(extractTag(chunk, "dc:creator")) || entry.source,
-        category:     { name },
-        published_at: extractTag(chunk, "pubDate"),
-        isExternal:   true,
-        externalUrl:  cleanUrl(extractTag(chunk, "link") || extractTag(chunk, "guid")),
-        source:       entry.source,
-        feedKey:      category,
-      };
-    })
-    .filter(isUsefulArticle);
+  for (const entry of feedEntries) {
+    let res;
+    try {
+      res = await fetch(entry.url, LIVE_FETCH_OPTIONS);
+    } catch {
+      continue;
+    }
+    if (!res.ok) continue;
 
-  return category === "cambodia" ? articles.filter(isCambodiaArticle) : articles;
+    const xml = await res.text();
+    const raw = xml.split("<item>").slice(1);
+    articles.push(
+      ...raw
+        .slice(0, 12)
+        .map((chunk, i) => {
+          const description = stripHtml(extractTag(chunk, "description"));
+          // content:encoded carries the fuller body when the publisher provides it.
+          const encoded = stripHtml(extractTag(chunk, "content:encoded"));
+          const body = encoded.length > description.length ? encoded : description;
+          return {
+            article_id:   cleanText(extractTag(chunk, "guid")) || `rss-${category}-${entry.source}-${i}`,
+            title:        stripHtml(extractTag(chunk, "title")),
+            image:        extractImage(chunk),
+            summary:      description.slice(0, 400),
+            content:      body,
+            author:       stripHtml(extractTag(chunk, "dc:creator")) || entry.source,
+            category:     { name },
+            published_at: extractTag(chunk, "pubDate"),
+            isExternal:   true,
+            externalUrl:  cleanUrl(extractTag(chunk, "link") || extractTag(chunk, "guid")),
+            source:       entry.source,
+            feedKey:      category,
+          };
+        })
+        .filter(isUsefulArticle)
+    );
+  }
+
+  const filtered = category === "cambodia"
+    ? articles.filter(isCambodiaArticle)
+    : articles;
+
+  return Array.from(
+    new Map(filtered.map((article) => [article.externalUrl || article.article_id, article])).values()
+  ).slice(0, 12);
 }
 
 // ── Route handler ───────────────────────────────────────────────────────────

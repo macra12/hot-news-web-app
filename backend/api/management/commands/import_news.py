@@ -52,6 +52,8 @@ CAMBODIA_TERMS = (
     "bavet", "poipet", "svay rieng", "takeo", "kampong", "kandal",
     "pursat", "mondulkiri", "ratanakiri", "prey veng", "hun manet",
     "hun sen", "senate", "national assembly", "ministry",
+    "khmertimeskh.com", "cambojanews.com", "camboja",
+    "phnompenhpost.com", "cambodianess.com", "freshnewsasia.com",
 )
 BAD_IMAGE_TERMS = (
     "logo", "favicon", "icon", "placeholder", "default-image",

@@ -71,6 +71,8 @@ SOURCES = [
     # ── Khmer / Cambodia feeds ────────────────────────────────────────────────
     {"name": "Khmer Times",       "feed_type": "rss", "category": "Cambodia",
      "url": "https://www.khmertimeskh.com/feed/",                           "website": "https://www.khmertimeskh.com", "active": True},
+    {"name": "CamboJA News",      "feed_type": "rss", "category": "Cambodia",
+     "url": "https://cambojanews.com/feed/",                                "website": "https://cambojanews.com", "active": True},
     # RFA Khmer refuses connections from many networks (and is geo-blocked in
     # some regions) → disabled to keep import cycles clean. Re-enable if your
     # network can reach https://www.rfa.org/khmer/rss2.xml.
