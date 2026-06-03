@@ -35,6 +35,14 @@ UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like 
 TAG_RE = re.compile(r"<[^>]+>")
 WS_RE = re.compile(r"\s+")
 IMG_RE = re.compile(r"""<img[^>]+src=["']([^"']+)["']""", re.I)
+# og:image / twitter:image meta tags (both attribute orders) — used as a
+# fallback when a feed (e.g. Al Jazeera, Google News) ships no image in its RSS.
+OG_IMAGE_RE = re.compile(
+    r"""<meta[^>]+(?:property|name)=["']og:image(?::url)?["'][^>]+content=["']([^"']+)["']""", re.I)
+OG_IMAGE_RE2 = re.compile(
+    r"""<meta[^>]+content=["']([^"']+)["'][^>]+(?:property|name)=["']og:image(?::url)?["']""", re.I)
+TWITTER_IMAGE_RE = re.compile(
+    r"""<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["']""", re.I)
 KHMER_RE = re.compile(r"[\u1780-\u17ff]")
 MIN_TEXT_CHARS = 60
 MOJIBAKE_MARKERS = ("\u00c3", "\u00c2", "\u00e2", "\u00e1")
@@ -148,6 +156,32 @@ def extract_image(entry):
     html = html or entry.get("summary", "")
     m = IMG_RE.search(html)
     return clean_image_url(m.group(1)) if m else ""
+
+
+def fetch_og_image(url):
+    """Best-effort: fetch a page and return its og:image / twitter:image, else "".
+
+    Used only for articles we are about to store whose feed gave no image, so the
+    extra request count stays small. Any network/parse problem just returns "".
+    """
+    if not url or not url.startswith("http"):
+        return ""
+    try:
+        resp = requests.get(url, headers={"User-Agent": UA}, timeout=12, allow_redirects=True)
+        if resp.status_code != 200:
+            return ""
+        head = resp.text[:200_000]  # the <head> is near the top — scan a slice, stay fast
+    except requests.exceptions.RequestException:
+        return ""
+    except Exception:  # noqa: BLE001 — never let image-fetching break the import
+        return ""
+    for rx in (OG_IMAGE_RE, OG_IMAGE_RE2, TWITTER_IMAGE_RE):
+        m = rx.search(head)
+        if m:
+            img = clean_image_url(m.group(1))
+            if img.startswith("http"):
+                return img
+    return ""
 
 
 def is_useful_item(item):
@@ -282,13 +316,16 @@ class Command(BaseCommand):
                     continue
                 if NewsArticle.objects.filter(external_url=link).exists():
                     continue
+                # Feed had no image (Al Jazeera, Google News, …) → fall back to the
+                # article page's og:image so the card isn't left blank.
+                image = item["image"] or fetch_og_image(link)
                 try:
                     NewsArticle.objects.create(
                         title=item["title"][:200],
                         slug=unique_slug(item["title"], link),
                         summary=item["summary"][:500],
                         content=item["content"] or item["summary"] or item["title"],
-                        image_url=item["image"][:600] if item["image"] else "",
+                        image_url=image[:600] if image else "",
                         author=bot,
                         category=source.default_category,
                         source=source,
