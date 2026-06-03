@@ -26,8 +26,11 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         limit = options["limit"]
         # Imageless external articles that still have a source link to scrape.
+        # NOTE: `image` (the uploaded-file field) is nullable, so we must NOT
+        # filter image="" — external articles never have an upload anyway, so we
+        # key off the empty remote image_url instead.
         qs = (
-            NewsArticle.objects.filter(image_url="", image="", is_external=True)
+            NewsArticle.objects.filter(image_url="", is_external=True)
             .exclude(external_url="")
             .order_by("-published_at")[:limit]
         )
