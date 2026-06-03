@@ -33,7 +33,7 @@ Only do this if you want uploaded media files stored outside Render.
    - `hot-news-frontend` for Next.js
    - `hot-news-db` for PostgreSQL
 
-This Blueprint avoids Render workers by default so the first deploy can stay on the free tier. Render free services do not support `preDeployCommand`, so the backend runs migrations and source seeding in its start command.
+This Blueprint avoids Render workers by default so the first deploy can stay on the free tier. Render free services do not support `preDeployCommand`, so the backend runs migrations, source seeding, and one RSS import in its start command.
 
 If you later want the database importer to run all day, add a paid Render Worker with this command:
 

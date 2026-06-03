@@ -16,6 +16,7 @@ const ND_CATEGORY = {
   technology:    "technology",
   entertainment: "entertainment",
   politics:      "politics",
+  business:      "business",
   education:     "top",
   general:       "top",
 };
@@ -35,6 +36,7 @@ const RSS_FALLBACKS = {
   technology:    { url: "https://feeds.bbci.co.uk/news/technology/rss.xml",            source: "BBC News" },
   entertainment: { url: "https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml", source: "BBC News" },
   politics:      { url: "https://feeds.bbci.co.uk/news/politics/rss.xml",              source: "BBC News" },
+  business:      { url: "https://feeds.bbci.co.uk/news/business/rss.xml",              source: "BBC News" },
   education:     { url: "https://feeds.bbci.co.uk/news/education/rss.xml",             source: "BBC News" },
   general:       { url: "https://feeds.bbci.co.uk/news/world/rss.xml",                 source: "BBC News" },
 };
@@ -47,6 +49,7 @@ const FRIENDLY = {
   technology:    "Technology",
   entertainment: "Entertainment",
   politics:      "Politics",
+  business:      "Business",
   education:     "Education",
   general:       "Top News",
 };

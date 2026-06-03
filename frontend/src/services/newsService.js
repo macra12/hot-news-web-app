@@ -3,6 +3,16 @@
 import { fetchArticlesByCategory } from "@/services/cmsService";
 
 const ROUTE = "/api/news";
+const NEWS_PAGE_FEEDS = [
+  "world",
+  "cambodia",
+  "politics",
+  "technology",
+  "sports",
+  "entertainment",
+  "business",
+  "education",
+];
 
 async function get(feedKey) {
   const res = await fetch(`${ROUTE}?category=${encodeURIComponent(feedKey)}`, {
@@ -124,6 +134,18 @@ export async function fetchHybridCategoryNews(feedKey, count = 10) {
     live.status === "fulfilled" ? live.value : [],
     stored.status === "fulfilled" ? stored.value : [],
   ], count);
+}
+
+export async function fetchHybridAllNews(count = 24) {
+  const countEach = Math.max(5, Math.ceil(count / NEWS_PAGE_FEEDS.length) + 2);
+  const results = await Promise.allSettled(
+    NEWS_PAGE_FEEDS.map((key) => fetchHybridCategoryNews(key, countEach))
+  );
+
+  return mergeAndRank(
+    results.map((result) => (result.status === "fulfilled" ? result.value : [])),
+    count
+  );
 }
 
 /**

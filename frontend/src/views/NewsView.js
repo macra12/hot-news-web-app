@@ -5,6 +5,7 @@ import NewsCard from "@/app/components/NewsCard";
 import Link from "next/link";
 import { useLanguage } from "@/app/components/LanguageProvider";
 import { API_BASE } from "@/config/api";
+import { fetchHybridAllNews, fetchHybridCategoryNews } from "@/services/newsService";
 
 const PAGE_SIZE = 24;
 
@@ -66,7 +67,26 @@ function NewsContent() {
       try {
         const res = await fetch(`${API_BASE}/news/?${q.toString()}`);
         const d = await res.json();
-        if (!cancelled) setData(Array.isArray(d) ? { results: d, count: d.length } : d);
+        const dbData = Array.isArray(d) ? { results: d, count: d.length } : d;
+        const dbArticles = Array.isArray(dbData?.results) ? dbData.results : [];
+
+        if (dbArticles.length) {
+          if (!cancelled) setData(dbData);
+          return;
+        }
+
+        const liveArticles = cat
+          ? await fetchHybridCategoryNews(cat, PAGE_SIZE)
+          : await fetchHybridAllNews(PAGE_SIZE);
+
+        if (!cancelled) {
+          setData({
+            results: liveArticles,
+            count: liveArticles.length,
+            next: null,
+            previous: null,
+          });
+        }
       } catch {
         if (!cancelled) setData({ results: [], count: 0 });
       } finally {
