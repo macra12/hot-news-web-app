@@ -231,7 +231,14 @@ if GS_BUCKET_NAME:
     if service_account is None:
         raise RuntimeError("django-storages[google] is required when GS_BUCKET_NAME is set.")
 
-    storage_options = {"bucket_name": GS_BUCKET_NAME}
+    storage_options = {
+        "bucket_name": GS_BUCKET_NAME,
+        # News images are public, so serve plain public URLs instead of
+        # short-lived signed URLs. The bucket must allow public read (see deploy doc).
+        "querystring_auth": False,
+        # Optional sub-folder inside the bucket, e.g. "media".
+        "location": os.environ.get("GS_LOCATION", ""),
+    }
     credentials_json = os.environ.get("GS_CREDENTIALS_JSON")
     if credentials_json:
         storage_options["credentials"] = service_account.Credentials.from_service_account_info(
