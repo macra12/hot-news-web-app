@@ -1,5 +1,4 @@
 // Server-side news API route — no CORS, with RSS fallback if NewsData quota runs out.
-// NOTE: ND_KEY should be moved to process.env.NEWSDATA_KEY before going to production.
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;

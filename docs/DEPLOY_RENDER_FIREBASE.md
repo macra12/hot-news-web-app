@@ -41,11 +41,11 @@ If you later want the database importer to run all day, add a paid Render Worker
 python manage.py run_importer --interval 120 --limit 20 --prune-days 60
 ```
 
-## 4. Fill secret environment variables
+## 4. Optional environment variables
 
-Render will ask for variables marked `sync: false`.
+The first Blueprint deploy does not require secrets.
 
-Backend:
+After the site is live, you can add these manually in Render if you want:
 
 ```text
 NEWSDATA_KEY=your_newsdata_api_key
@@ -53,13 +53,13 @@ GS_BUCKET_NAME=your_firebase_storage_bucket
 GS_CREDENTIALS_JSON=paste_the_full_service_account_json
 ```
 
-Frontend:
+Add `NEWSDATA_KEY` to the frontend service too if you want the live NewsData API route to use it:
 
 ```text
 NEWSDATA_KEY=your_newsdata_api_key
 ```
 
-If you do not use Firebase Storage yet, leave `GS_BUCKET_NAME` and `GS_CREDENTIALS_JSON` empty.
+If you do not use Firebase Storage yet, do not add `GS_BUCKET_NAME` or `GS_CREDENTIALS_JSON`.
 
 ## 5. If you rename services
 

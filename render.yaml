@@ -23,12 +23,6 @@ services:
         fromDatabase:
           name: hot-news-db
           property: connectionString
-      - key: NEWSDATA_KEY
-        sync: false
-      - key: GS_BUCKET_NAME
-        sync: false
-      - key: GS_CREDENTIALS_JSON
-        sync: false
 
   - type: web
     name: hot-news-frontend
@@ -42,8 +36,6 @@ services:
         value: 22
       - key: NEXT_PUBLIC_API_BASE
         value: https://hot-news-backend.onrender.com/api
-      - key: NEWSDATA_KEY
-        sync: false
 
 databases:
   - name: hot-news-db
