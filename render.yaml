@@ -13,15 +13,15 @@ services:
         value: "False"
       - key: DJANGO_SECRET_KEY
         generateValue: true
-      # Superadmin is created on deploy. Username/email are public; set the
-      # PASSWORD in the Render dashboard (kept out of git). Until it is set the
-      # step skips safely. Change the password after first login.
+      # Superadmin is created on deploy. The password is set here so the account
+      # is created automatically (demo project). For better security you can move
+      # it to the dashboard with `sync: false` and rotate it after first login.
       - key: SUPERADMIN_USERNAME
         value: admin
       - key: SUPERADMIN_EMAIL
         value: admin@genzflash.app
-      - key: MacRa2023
-        sync: false
+      - key: SUPERADMIN_PASSWORD
+        value: Admin@2026Genz
       - key: DJANGO_ALLOWED_HOSTS
         value: hot-news-backend.onrender.com
       - key: DJANGO_CORS_ALLOWED_ORIGINS
