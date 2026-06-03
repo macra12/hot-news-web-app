@@ -227,27 +227,26 @@ if not DEBUG:
     }
 
 GS_BUCKET_NAME = os.environ.get("GS_BUCKET_NAME")
-if GS_BUCKET_NAME:
+GS_CREDENTIALS_JSON = os.environ.get("GS_CREDENTIALS_JSON")
+# Only switch media to Firebase/GCS when BOTH the bucket and credentials are
+# present — so setting just the bucket can't break uploads; it stays on local
+# disk until the secret JSON is added.
+if GS_BUCKET_NAME and GS_CREDENTIALS_JSON:
     if service_account is None:
         raise RuntimeError("django-storages[google] is required when GS_BUCKET_NAME is set.")
 
-    storage_options = {
-        "bucket_name": GS_BUCKET_NAME,
-        # News images are public, so serve plain public URLs instead of
-        # short-lived signed URLs. The bucket must allow public read (see deploy doc).
-        "querystring_auth": False,
-        # Optional sub-folder inside the bucket, e.g. "media".
-        "location": os.environ.get("GS_LOCATION", ""),
-    }
-    credentials_json = os.environ.get("GS_CREDENTIALS_JSON")
-    if credentials_json:
-        storage_options["credentials"] = service_account.Credentials.from_service_account_info(
-            json.loads(credentials_json)
-        )
-
     STORAGES["default"] = {
         "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
-        "OPTIONS": storage_options,
+        "OPTIONS": {
+            "bucket_name": GS_BUCKET_NAME,
+            # News images are public → serve plain public URLs (not signed/expiring).
+            "querystring_auth": False,
+            # Optional sub-folder inside the bucket, e.g. "media".
+            "location": os.environ.get("GS_LOCATION", ""),
+            "credentials": service_account.Credentials.from_service_account_info(
+                json.loads(GS_CREDENTIALS_JSON)
+            ),
+        },
     }
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
